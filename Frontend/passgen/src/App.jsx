@@ -6,7 +6,7 @@ import ModeProvider from "./Context/Context";
 function App() {
   return (
     <>
-      <div className="dark:bg-[#040c1d] w-screen h-screen">
+      <div className="flex flex-col dark:bg-[#040c1d] w-screen h-screen">
         <ModeProvider>
           <Header />
           <Create />
