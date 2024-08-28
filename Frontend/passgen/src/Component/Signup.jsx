@@ -2,6 +2,8 @@ import { useState } from "react";
 import Loading from "./Loading";
 import { validateEmail, validatePassword } from "../assets/Utils/utils";
 import { useNavigate } from "react-router-dom";
+import { errorToast, successToast } from "../Toast/toast";
+import axiosInstance from "../Axios/axios";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ export default function Signup() {
     emailError: "",
     nameError: "",
   });
-  const signup = () => {
+  const signup = async () => {
     setLoading(true);
     setError(() => ({ passError: "", emailError: "", nameError: "" }));
     if (!data.email && !data.password && !data.name) {
@@ -63,6 +65,17 @@ export default function Signup() {
     if (isValidP !== true) {
       setError((prev) => ({ ...prev, passError: isValidP }));
       return setLoading(false);
+    }
+
+    try {
+      const response = await axiosInstance.post("/api/signup", data);
+      if (response.status == 201) {
+        successToast(response.data.message);
+      }
+    } catch (error) {
+      errorToast(error.response?.data?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
