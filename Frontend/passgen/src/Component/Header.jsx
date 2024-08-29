@@ -8,6 +8,8 @@ import {
   faFloppyDisk,
   faL,
   faMoon,
+  faPlug,
+  faPlus,
   faRightFromBracket,
   faSun,
   faUser,
@@ -84,7 +86,16 @@ export default function Header() {
             </span>
           </div>
         )}
-
+        <div
+          onClick={() => navigate("/create")}
+          className="  font-semibold  dark:text-white text-black uppercase cursor-pointer"
+        >
+          <span className="xs:hidden">create</span>
+          <span className="sm:hidden">
+            {" "}
+            <FontAwesomeIcon icon={faPlus} />
+          </span>
+        </div>
         <div
           onClick={() => (user ? navigate("/saved") : navigate("/login"))}
           className="  font-semibold dark:text-white text-black uppercase cursor-pointer"
