@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Loading from "./Loading";
 import { validateEmail, validatePassword } from "../assets/Utils/utils";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../Axios/axios";
 import { errorToast, successToast } from "../Toast/toast";
+import { ModeContext } from "../Context/Context";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -12,6 +13,8 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  const { setUser } = useContext(ModeContext);
 
   const [error, setError] = useState({ passError: "", emailError: "" });
   const login = async () => {
@@ -48,7 +51,12 @@ export default function Login() {
     }
     try {
       const response = await axiosInstance.post("/api/login", data);
-      successToast(response.data.message);
+      if (response.status == 200) {
+        setUser(true);
+        localStorage.setItem("accesstoken", response.data.token);
+        successToast(response.data.message);
+        navigate("/create");
+      }
     } catch (error) {
       errorToast(error.response.data.message);
     } finally {
@@ -57,7 +65,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex grow  items-center justify-center">
+    <div className="flex grow  items-center justify-center ">
       <div className="w-[400px]  border py-16 rounded-lg border-black dark:border-slate-700 shadow-lg px-4">
         <div className="text-center mb-5 text-2xl dark:text-white text-black">
           Login

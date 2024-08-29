@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Loading from "./Loading";
 import { validateEmail, validatePassword } from "../assets/Utils/utils";
 import { useNavigate } from "react-router-dom";
 import { errorToast, successToast } from "../Toast/toast";
 import axiosInstance from "../Axios/axios";
+import { ModeContext } from "../Context/Context";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ export default function Signup() {
     password: "",
     name: "",
   });
+
+  const { setUser } = useContext(ModeContext);
 
   const [error, setError] = useState({
     passError: "",
@@ -70,7 +73,10 @@ export default function Signup() {
     try {
       const response = await axiosInstance.post("/api/signup", data);
       if (response.status == 201) {
+        localStorage.setItem("accesstoken", response?.data?.token);
+        setUser(true);
         successToast(response.data.message);
+        navigate("/create");
       }
     } catch (error) {
       errorToast(error.response?.data?.message);

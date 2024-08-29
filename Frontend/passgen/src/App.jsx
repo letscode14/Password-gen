@@ -12,19 +12,26 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute, { PublicRoute } from "./PrivateComponent/PrivateRoute";
+import SavedPass from "./Component/SavedPass";
 
 function App() {
   return (
     <>
-      <div className="flex flex-col dark:bg-[#040c1d] bg-white w-screen h-screen">
+      <div className="flex flex-col dark:bg-[#040c1d] bg-white  w-screen xs:px-2 h-screen">
         <ModeProvider>
-          <Header />
           <Router>
+            <Header />
             <Routes>
+              <Route element={<PrivateRoute />}>
+                <Route path="/saved" element={<SavedPass />}></Route>
+              </Route>
               <Route path="/create" element={<Create />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/" element={<Navigate to="/login" />} />
+              <Route element={<PublicRoute />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/" element={<Navigate to="/create" />} />
+              </Route>
             </Routes>
           </Router>
         </ModeProvider>

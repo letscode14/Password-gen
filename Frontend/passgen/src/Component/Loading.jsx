@@ -9,3 +9,13 @@ export default function Loading() {
     </div>
   );
 }
+
+export function Loading2() {
+  return (
+    <div className="typing-loader">
+      <span className="dot p-1 bg-black  rounded-full"></span>
+      <span className="dot p-1 bg-black rounded-full"></span>
+      <span className="dot p-1 bg-black rounded-full"></span>
+    </div>
+  );
+}

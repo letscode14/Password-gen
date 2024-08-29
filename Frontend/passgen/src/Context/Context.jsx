@@ -1,9 +1,31 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import axiosInstance from "../Axios/axios";
 
 export const ModeContext = createContext(null);
 
 const ModeProvider = ({ children }) => {
   const [dark, setValue] = useState(true);
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function fectuser() {
+      try {
+        const response = await axiosInstance.get("/api/user");
+        if (response.status == 200) {
+          setUser(response.data.email);
+        }
+      } catch (error) {
+        console.log(error);
+        setUser(null);
+      }
+    }
+    if (localStorage.getItem("accesstoken")) {
+      fectuser();
+    } else {
+      setUser(null);
+    }
+  }, []);
 
   useEffect(() => {
     if (!dark) {
@@ -14,7 +36,7 @@ const ModeProvider = ({ children }) => {
   }, [dark]);
 
   return (
-    <ModeContext.Provider value={{ dark, setValue }}>
+    <ModeContext.Provider value={{ dark, setValue, user, setUser }}>
       {children}
     </ModeContext.Provider>
   );

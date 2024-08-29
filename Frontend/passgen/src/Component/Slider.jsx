@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 
-const Slider = () => {
+const Slider = ({ onSelect }) => {
   const [selectedNumber, setSelectedNumber] = useState(8);
+
+  const handleSelect = (data) => {
+    setSelectedNumber(data);
+    onSelect(data);
+  };
 
   return (
     <div className="flex flex-col my-2 ">
@@ -21,7 +26,7 @@ const Slider = () => {
                     : " text-gray-800 dark:text-white"
                 }
               `}
-                onClick={() => setSelectedNumber(i + 1)}
+                onClick={() => handleSelect(i + 1)}
               >
                 {i + 1}
               </div>

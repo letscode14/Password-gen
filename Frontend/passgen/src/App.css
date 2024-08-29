@@ -2,7 +2,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   margin: 0;
   background-color: #f0f0f0;
 }
@@ -37,5 +36,46 @@ body {
   }
   50% {
     opacity: 1;
+  }
+}
+
+/**/
+.icon-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.copied-animation {
+  position: absolute;
+  top: -25px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50; /* Green background */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  animation: fadeInOut 2s ease-in-out;
+  white-space: nowrap;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) translateX(-50%);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) translateX(-50%);
   }
 }
