@@ -30,6 +30,7 @@ export default function Header() {
   };
 
   const handleDarkMode = () => {
+    localStorage.setItem("mode", !dark);
     setValue(!dark);
   };
 

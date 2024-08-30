@@ -4,7 +4,19 @@ import axiosInstance from "../Axios/axios";
 export const ModeContext = createContext(null);
 
 const ModeProvider = ({ children }) => {
-  const [dark, setValue] = useState(true);
+  const [dark, setValue] = useState();
+  useEffect(() => {
+    const value = localStorage.getItem("mode");
+    if (value == "true") {
+      setValue(true);
+    } else if (value == "false") {
+      setValue(false);
+    } else {
+      setValue(true);
+    }
+  }, []);
+
+  const [load, setLoading] = useState(true);
 
   const [user, setUser] = useState(null);
 
@@ -14,17 +26,18 @@ const ModeProvider = ({ children }) => {
         const response = await axiosInstance.get("/api/user");
         if (response.status == 200) {
           setUser(response.data.email);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
         setUser(null);
+        setLoading(false);
+      } finally {
+        setLoading(false);
       }
     }
-    if (localStorage.getItem("accesstoken")) {
-      fectuser();
-    } else {
-      setUser(null);
-    }
+
+    fectuser();
   }, []);
 
   useEffect(() => {
@@ -36,7 +49,7 @@ const ModeProvider = ({ children }) => {
   }, [dark]);
 
   return (
-    <ModeContext.Provider value={{ dark, setValue, user, setUser }}>
+    <ModeContext.Provider value={{ dark, setValue, user, setUser, load }}>
       {children}
     </ModeContext.Provider>
   );
